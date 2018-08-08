@@ -1,0 +1,551 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DBTecnoScienceModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="DBTecnoScienceModelStoreContainer">
+          <EntitySet Name="Compras" EntityType="DBTecnoScienceModel.Store.Compras" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Productos" EntityType="DBTecnoScienceModel.Store.Productos" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Proveedores" EntityType="DBTecnoScienceModel.Store.Proveedores" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Ventas" EntityType="DBTecnoScienceModel.Store.Ventas" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Productoo" Association="DBTecnoScienceModel.Store.FK_Productoo">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Compras" EntitySet="Compras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Productos" Association="DBTecnoScienceModel.Store.FK_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proveedor" Association="DBTecnoScienceModel.Store.FK_Proveedor">
+            <End Role="Proveedores" EntitySet="Proveedores" />
+            <End Role="Compras" EntitySet="Compras" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Compras">
+          <Key>
+            <PropertyRef Name="IdCompra" />
+          </Key>
+          <Property Name="IdCompra" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="IdProducto" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="IdProveedor" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="Nombre_Proveedor" Type="varchar" MaxLength="40" />
+          <Property Name="FechaDeCompra" Type="varchar" MaxLength="10" />
+          <Property Name="CantidadComprada" Type="varchar" MaxLength="10" />
+          <Property Name="TotalCompra" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="IdProducto" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="Nombre_Producto" Type="varchar" MaxLength="40" />
+          <Property Name="Cantidad_Existente" Type="varchar" MaxLength="40" />
+          <Property Name="Precio_Unitario" Type="varchar" MaxLength="40" />
+          <Property Name="Categoria_Producto" Type="varchar" MaxLength="40" />
+          <Property Name="Marca_Producto" Type="varchar" MaxLength="40" />
+          <Property Name="Descripcion_Producto" Type="varchar" MaxLength="100" />
+          <Property Name="ImagenMerc" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Proveedores">
+          <Key>
+            <PropertyRef Name="IdProveedor" />
+          </Key>
+          <Property Name="IdProveedor" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="NombreProveedor" Type="varchar" Nullable="false" MaxLength="30" />
+          <Property Name="DireccionProveedor" Type="varchar" MaxLength="30" />
+          <Property Name="TelefonoProveedor" Type="varchar" MaxLength="10" />
+          <Property Name="CiudadProveedor" Type="varchar" MaxLength="15" />
+          <Property Name="EstadoProveedor" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="Id_Ventas" />
+          </Key>
+          <Property Name="Id_Ventas" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="IdProducto" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="Cantidad_Venta" Type="varchar" MaxLength="10" />
+          <Property Name="Nombre_Producto" Type="varchar" MaxLength="40" />
+          <Property Name="FechaVenta" Type="varchar" MaxLength="40" />
+          <Property Name="Descuento" Type="varchar" MaxLength="10" />
+          <Property Name="Total_Venta" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_Productoo">
+          <End Role="Productos" Type="DBTecnoScienceModel.Store.Productos" Multiplicity="1" />
+          <End Role="Compras" Type="DBTecnoScienceModel.Store.Compras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="Compras">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Productos">
+          <End Role="Productos" Type="DBTecnoScienceModel.Store.Productos" Multiplicity="1" />
+          <End Role="Ventas" Type="DBTecnoScienceModel.Store.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proveedor">
+          <End Role="Proveedores" Type="DBTecnoScienceModel.Store.Proveedores" Multiplicity="1" />
+          <End Role="Compras" Type="DBTecnoScienceModel.Store.Compras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedores">
+              <PropertyRef Name="IdProveedor" />
+            </Principal>
+            <Dependent Role="Compras">
+              <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="BUSCARCOMPRAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCompra" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="BUSCARPRODUCTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProducto" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="BUSCARPROVEEDORES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProveedor" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="BUSCARVENTA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id_Ventas" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CONSULTAGENERALPRODUCTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ELIMINARCOMPRAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCompra" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ELIMINARPRODUCTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProducto" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ELIMINARPROVEEDORES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProveedor" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ELIMINARVENTAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id_Ventas" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MODIFICARPRODUCTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProducto" Type="varchar" Mode="In" />
+          <Parameter Name="Nombre_Producto" Type="varchar" Mode="In" />
+          <Parameter Name="Cantidad_Existente" Type="varchar" Mode="In" />
+          <Parameter Name="Precio_Unitario" Type="varchar" Mode="In" />
+          <Parameter Name="Categoria_Producto" Type="varchar" Mode="In" />
+          <Parameter Name="Marca_Producto" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion_Producto" Type="varchar" Mode="In" />
+          <Parameter Name="ImagenMerc" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="REGISTRARCOMPRAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCompra" Type="varchar" Mode="In" />
+          <Parameter Name="IdProducto" Type="varchar" Mode="In" />
+          <Parameter Name="IdProveedor" Type="varchar" Mode="In" />
+          <Parameter Name="Nombre_Proveedor" Type="varchar" Mode="In" />
+          <Parameter Name="FechaDeCompra" Type="varchar" Mode="In" />
+          <Parameter Name="CantidadComprada" Type="varchar" Mode="In" />
+          <Parameter Name="TotalCompra" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="REGISTRARPRODUCTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProducto" Type="varchar" Mode="In" />
+          <Parameter Name="Nombre_Producto" Type="varchar" Mode="In" />
+          <Parameter Name="Cantidad_Existente" Type="varchar" Mode="In" />
+          <Parameter Name="Precio_Unitario" Type="varchar" Mode="In" />
+          <Parameter Name="Categoria_Producto" Type="varchar" Mode="In" />
+          <Parameter Name="Marca_Producto" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion_Producto" Type="varchar" Mode="In" />
+          <Parameter Name="ImagenMerc" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="REGISTRARPROVEEDORES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProveedor" Type="varchar" Mode="In" />
+          <Parameter Name="NombreProveedor" Type="varchar" Mode="In" />
+          <Parameter Name="DireccionProveedor" Type="varchar" Mode="In" />
+          <Parameter Name="TelefonoProveedor" Type="varchar" Mode="In" />
+          <Parameter Name="CiudadProveedor" Type="varchar" Mode="In" />
+          <Parameter Name="EstadoProveedor" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="REGISTRARVENTAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id_Ventas" Type="varchar" Mode="In" />
+          <Parameter Name="IdProducto" Type="varchar" Mode="In" />
+          <Parameter Name="Cantidad_Venta" Type="varchar" Mode="In" />
+          <Parameter Name="Nombre_Producto" Type="varchar" Mode="In" />
+          <Parameter Name="FechaVenta" Type="varchar" Mode="In" />
+          <Parameter Name="Descuento" Type="varchar" Mode="In" />
+          <Parameter Name="Total_Venta" Type="varchar" Mode="In" />
+        </Function>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBTecnoScienceModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="DBTecnoScienceEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Compras" EntityType="DBTecnoScienceModel.Compras" />
+          <EntitySet Name="Productos" EntityType="DBTecnoScienceModel.Productos" />
+          <EntitySet Name="Proveedores" EntityType="DBTecnoScienceModel.Proveedores" />
+          <EntitySet Name="Ventas" EntityType="DBTecnoScienceModel.Ventas" />
+          <AssociationSet Name="FK_Productoo" Association="DBTecnoScienceModel.FK_Productoo">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Compras" EntitySet="Compras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proveedor" Association="DBTecnoScienceModel.FK_Proveedor">
+            <End Role="Proveedores" EntitySet="Proveedores" />
+            <End Role="Compras" EntitySet="Compras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Productos" Association="DBTecnoScienceModel.FK_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <FunctionImport Name="BUSCARCOMPRAS" EntitySet="Compras" ReturnType="Collection(DBTecnoScienceModel.Compras)">
+            <Parameter Name="IdCompra" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="BUSCARPRODUCTO" EntitySet="Productos" ReturnType="Collection(DBTecnoScienceModel.Productos)">
+            <Parameter Name="IdProducto" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="BUSCARPROVEEDORES" EntitySet="Proveedores" ReturnType="Collection(DBTecnoScienceModel.Proveedores)">
+            <Parameter Name="IdProveedor" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="BUSCARVENTA" EntitySet="Ventas" ReturnType="Collection(DBTecnoScienceModel.Ventas)">
+            <Parameter Name="Id_Ventas" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CONSULTAGENERALPRODUCTO" EntitySet="Productos" ReturnType="Collection(DBTecnoScienceModel.Productos)" />
+          <FunctionImport Name="ELIMINARCOMPRAS" EntitySet="Compras" ReturnType="Collection(DBTecnoScienceModel.Compras)">
+            <Parameter Name="IdCompra" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ELIMINARPRODUCTO" EntitySet="Productos" ReturnType="Collection(DBTecnoScienceModel.Productos)">
+            <Parameter Name="IdProducto" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ELIMINARPROVEEDORES" EntitySet="Proveedores" ReturnType="Collection(DBTecnoScienceModel.Proveedores)">
+            <Parameter Name="IdProveedor" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ELIMINARVENTAS" EntitySet="Ventas" ReturnType="Collection(DBTecnoScienceModel.Ventas)">
+            <Parameter Name="Id_Ventas" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MODIFICARPRODUCTO" EntitySet="Productos" ReturnType="Collection(DBTecnoScienceModel.Productos)">
+            <Parameter Name="IdProducto" Mode="In" Type="String" />
+            <Parameter Name="Nombre_Producto" Mode="In" Type="String" />
+            <Parameter Name="Cantidad_Existente" Mode="In" Type="String" />
+            <Parameter Name="Precio_Unitario" Mode="In" Type="String" />
+            <Parameter Name="Categoria_Producto" Mode="In" Type="String" />
+            <Parameter Name="Marca_Producto" Mode="In" Type="String" />
+            <Parameter Name="Descripcion_Producto" Mode="In" Type="String" />
+            <Parameter Name="ImagenMerc" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="REGISTRARCOMPRAS" EntitySet="Compras" ReturnType="Collection(DBTecnoScienceModel.Compras)">
+            <Parameter Name="IdCompra" Mode="In" Type="String" />
+            <Parameter Name="IdProducto" Mode="In" Type="String" />
+            <Parameter Name="IdProveedor" Mode="In" Type="String" />
+            <Parameter Name="Nombre_Proveedor" Mode="In" Type="String" />
+            <Parameter Name="FechaDeCompra" Mode="In" Type="String" />
+            <Parameter Name="CantidadComprada" Mode="In" Type="String" />
+            <Parameter Name="TotalCompra" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="REGISTRARPRODUCTO" EntitySet="Productos" ReturnType="Collection(DBTecnoScienceModel.Productos)">
+            <Parameter Name="IdProducto" Mode="In" Type="String" />
+            <Parameter Name="Nombre_Producto" Mode="In" Type="String" />
+            <Parameter Name="Cantidad_Existente" Mode="In" Type="String" />
+            <Parameter Name="Precio_Unitario" Mode="In" Type="String" />
+            <Parameter Name="Categoria_Producto" Mode="In" Type="String" />
+            <Parameter Name="Marca_Producto" Mode="In" Type="String" />
+            <Parameter Name="Descripcion_Producto" Mode="In" Type="String" />
+            <Parameter Name="ImagenMerc" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="REGISTRARPROVEEDORES" EntitySet="Proveedores" ReturnType="Collection(DBTecnoScienceModel.Proveedores)">
+            <Parameter Name="IdProveedor" Mode="In" Type="String" />
+            <Parameter Name="NombreProveedor" Mode="In" Type="String" />
+            <Parameter Name="DireccionProveedor" Mode="In" Type="String" />
+            <Parameter Name="TelefonoProveedor" Mode="In" Type="String" />
+            <Parameter Name="CiudadProveedor" Mode="In" Type="String" />
+            <Parameter Name="EstadoProveedor" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="REGISTRARVENTAS" EntitySet="Ventas" ReturnType="Collection(DBTecnoScienceModel.Ventas)">
+            <Parameter Name="Id_Ventas" Mode="In" Type="String" />
+            <Parameter Name="IdProducto" Mode="In" Type="String" />
+            <Parameter Name="Cantidad_Venta" Mode="In" Type="String" />
+            <Parameter Name="Nombre_Producto" Mode="In" Type="String" />
+            <Parameter Name="FechaVenta" Mode="In" Type="String" />
+            <Parameter Name="Descuento" Mode="In" Type="String" />
+            <Parameter Name="Total_Venta" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Compras">
+          <Key>
+            <PropertyRef Name="IdCompra" />
+          </Key>
+          <Property Name="IdCompra" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="IdProducto" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="IdProveedor" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="Nombre_Proveedor" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
+          <Property Name="FechaDeCompra" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="CantidadComprada" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="TotalCompra" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Productos" Relationship="DBTecnoScienceModel.FK_Productoo" FromRole="Compras" ToRole="Productos" />
+          <NavigationProperty Name="Proveedores" Relationship="DBTecnoScienceModel.FK_Proveedor" FromRole="Compras" ToRole="Proveedores" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="IdProducto" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="Nombre_Producto" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
+          <Property Name="Cantidad_Existente" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
+          <Property Name="Precio_Unitario" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
+          <Property Name="Categoria_Producto" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
+          <Property Name="Marca_Producto" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
+          <Property Name="Descripcion_Producto" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="ImagenMerc" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Compras" Relationship="DBTecnoScienceModel.FK_Productoo" FromRole="Productos" ToRole="Compras" />
+          <NavigationProperty Name="Ventas" Relationship="DBTecnoScienceModel.FK_Productos" FromRole="Productos" ToRole="Ventas" />
+        </EntityType>
+        <EntityType Name="Proveedores">
+          <Key>
+            <PropertyRef Name="IdProveedor" />
+          </Key>
+          <Property Name="IdProveedor" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="NombreProveedor" Type="String" Nullable="false" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="DireccionProveedor" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="TelefonoProveedor" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="CiudadProveedor" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="EstadoProveedor" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Compras" Relationship="DBTecnoScienceModel.FK_Proveedor" FromRole="Proveedores" ToRole="Compras" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="Id_Ventas" />
+          </Key>
+          <Property Name="Id_Ventas" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="IdProducto" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="Cantidad_Venta" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="Nombre_Producto" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
+          <Property Name="FechaVenta" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
+          <Property Name="Descuento" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="Total_Venta" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Productos" Relationship="DBTecnoScienceModel.FK_Productos" FromRole="Ventas" ToRole="Productos" />
+        </EntityType>
+        <Association Name="FK_Productoo">
+          <End Role="Productos" Type="DBTecnoScienceModel.Productos" Multiplicity="1" />
+          <End Role="Compras" Type="DBTecnoScienceModel.Compras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="Compras">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proveedor">
+          <End Role="Proveedores" Type="DBTecnoScienceModel.Proveedores" Multiplicity="1" />
+          <End Role="Compras" Type="DBTecnoScienceModel.Compras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedores">
+              <PropertyRef Name="IdProveedor" />
+            </Principal>
+            <Dependent Role="Compras">
+              <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Productos">
+          <End Role="Productos" Type="DBTecnoScienceModel.Productos" Multiplicity="1" />
+          <End Role="Ventas" Type="DBTecnoScienceModel.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBTecnoScienceModelStoreContainer" CdmEntityContainer="DBTecnoScienceEntities2">
+          <EntitySetMapping Name="Compras">
+            <EntityTypeMapping TypeName="DBTecnoScienceModel.Compras">
+              <MappingFragment StoreEntitySet="Compras">
+                <ScalarProperty Name="IdCompra" ColumnName="IdCompra" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+                <ScalarProperty Name="Nombre_Proveedor" ColumnName="Nombre_Proveedor" />
+                <ScalarProperty Name="FechaDeCompra" ColumnName="FechaDeCompra" />
+                <ScalarProperty Name="CantidadComprada" ColumnName="CantidadComprada" />
+                <ScalarProperty Name="TotalCompra" ColumnName="TotalCompra" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="DBTecnoScienceModel.Compras">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="DBTecnoScienceModel.Store.REGISTRARCOMPRAS">
+                  <ScalarProperty Name="TotalCompra" ParameterName="TotalCompra" />
+                  <ScalarProperty Name="CantidadComprada" ParameterName="CantidadComprada" />
+                  <ScalarProperty Name="FechaDeCompra" ParameterName="FechaDeCompra" />
+                  <ScalarProperty Name="Nombre_Proveedor" ParameterName="Nombre_Proveedor" />
+                  <ScalarProperty Name="IdProveedor" ParameterName="IdProveedor" />
+                  <ScalarProperty Name="IdProducto" ParameterName="IdProducto" />
+                  <ScalarProperty Name="IdCompra" ParameterName="IdCompra" />
+                </InsertFunction>
+                <DeleteFunction FunctionName="DBTecnoScienceModel.Store.ELIMINARCOMPRAS">
+                  <ScalarProperty Name="IdCompra" ParameterName="IdCompra" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Productos">
+            <EntityTypeMapping TypeName="DBTecnoScienceModel.Productos">
+              <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Nombre_Producto" ColumnName="Nombre_Producto" />
+                <ScalarProperty Name="Cantidad_Existente" ColumnName="Cantidad_Existente" />
+                <ScalarProperty Name="Precio_Unitario" ColumnName="Precio_Unitario" />
+                <ScalarProperty Name="Categoria_Producto" ColumnName="Categoria_Producto" />
+                <ScalarProperty Name="Marca_Producto" ColumnName="Marca_Producto" />
+                <ScalarProperty Name="Descripcion_Producto" ColumnName="Descripcion_Producto" />
+                <ScalarProperty Name="ImagenMerc" ColumnName="ImagenMerc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="DBTecnoScienceModel.Productos">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="DBTecnoScienceModel.Store.REGISTRARPRODUCTO">
+                  <ScalarProperty Name="ImagenMerc" ParameterName="ImagenMerc" />
+                  <ScalarProperty Name="Descripcion_Producto" ParameterName="Descripcion_Producto" />
+                  <ScalarProperty Name="Marca_Producto" ParameterName="Marca_Producto" />
+                  <ScalarProperty Name="Categoria_Producto" ParameterName="Categoria_Producto" />
+                  <ScalarProperty Name="Precio_Unitario" ParameterName="Precio_Unitario" />
+                  <ScalarProperty Name="Cantidad_Existente" ParameterName="Cantidad_Existente" />
+                  <ScalarProperty Name="Nombre_Producto" ParameterName="Nombre_Producto" />
+                  <ScalarProperty Name="IdProducto" ParameterName="IdProducto" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="DBTecnoScienceModel.Store.MODIFICARPRODUCTO">
+                  <ScalarProperty Name="ImagenMerc" ParameterName="ImagenMerc" Version="Current" />
+                  <ScalarProperty Name="Descripcion_Producto" ParameterName="Descripcion_Producto" Version="Current" />
+                  <ScalarProperty Name="Marca_Producto" ParameterName="Marca_Producto" Version="Current" />
+                  <ScalarProperty Name="Categoria_Producto" ParameterName="Categoria_Producto" Version="Current" />
+                  <ScalarProperty Name="Precio_Unitario" ParameterName="Precio_Unitario" Version="Current" />
+                  <ScalarProperty Name="Cantidad_Existente" ParameterName="Cantidad_Existente" Version="Current" />
+                  <ScalarProperty Name="Nombre_Producto" ParameterName="Nombre_Producto" Version="Current" />
+                  <ScalarProperty Name="IdProducto" ParameterName="IdProducto" Version="Current" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="DBTecnoScienceModel.Store.ELIMINARPRODUCTO">
+                  <ScalarProperty Name="IdProducto" ParameterName="IdProducto" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proveedores">
+            <EntityTypeMapping TypeName="DBTecnoScienceModel.Proveedores">
+              <MappingFragment StoreEntitySet="Proveedores">
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+                <ScalarProperty Name="NombreProveedor" ColumnName="NombreProveedor" />
+                <ScalarProperty Name="DireccionProveedor" ColumnName="DireccionProveedor" />
+                <ScalarProperty Name="TelefonoProveedor" ColumnName="TelefonoProveedor" />
+                <ScalarProperty Name="CiudadProveedor" ColumnName="CiudadProveedor" />
+                <ScalarProperty Name="EstadoProveedor" ColumnName="EstadoProveedor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="DBTecnoScienceModel.Proveedores">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="DBTecnoScienceModel.Store.REGISTRARPROVEEDORES">
+                  <ScalarProperty Name="EstadoProveedor" ParameterName="EstadoProveedor" />
+                  <ScalarProperty Name="CiudadProveedor" ParameterName="CiudadProveedor" />
+                  <ScalarProperty Name="TelefonoProveedor" ParameterName="TelefonoProveedor" />
+                  <ScalarProperty Name="DireccionProveedor" ParameterName="DireccionProveedor" />
+                  <ScalarProperty Name="NombreProveedor" ParameterName="NombreProveedor" />
+                  <ScalarProperty Name="IdProveedor" ParameterName="IdProveedor" />
+                </InsertFunction>
+                <DeleteFunction FunctionName="DBTecnoScienceModel.Store.ELIMINARPROVEEDORES">
+                  <ScalarProperty Name="IdProveedor" ParameterName="IdProveedor" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ventas">
+            <EntityTypeMapping TypeName="DBTecnoScienceModel.Ventas">
+              <MappingFragment StoreEntitySet="Ventas">
+                <ScalarProperty Name="Id_Ventas" ColumnName="Id_Ventas" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Cantidad_Venta" ColumnName="Cantidad_Venta" />
+                <ScalarProperty Name="Nombre_Producto" ColumnName="Nombre_Producto" />
+                <ScalarProperty Name="FechaVenta" ColumnName="FechaVenta" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Total_Venta" ColumnName="Total_Venta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="DBTecnoScienceModel.Ventas">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="DBTecnoScienceModel.Store.REGISTRARVENTAS">
+                  <ScalarProperty Name="Total_Venta" ParameterName="Total_Venta" />
+                  <ScalarProperty Name="Descuento" ParameterName="Descuento" />
+                  <ScalarProperty Name="FechaVenta" ParameterName="FechaVenta" />
+                  <ScalarProperty Name="Nombre_Producto" ParameterName="Nombre_Producto" />
+                  <ScalarProperty Name="Cantidad_Venta" ParameterName="Cantidad_Venta" />
+                  <ScalarProperty Name="IdProducto" ParameterName="IdProducto" />
+                  <ScalarProperty Name="Id_Ventas" ParameterName="Id_Ventas" />
+                </InsertFunction>
+                <DeleteFunction FunctionName="DBTecnoScienceModel.Store.ELIMINARVENTAS">
+                  <ScalarProperty Name="Id_Ventas" ParameterName="Id_Ventas" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="BUSCARCOMPRAS" FunctionName="DBTecnoScienceModel.Store.BUSCARCOMPRAS" />
+          <FunctionImportMapping FunctionImportName="BUSCARPRODUCTO" FunctionName="DBTecnoScienceModel.Store.BUSCARPRODUCTO" />
+          <FunctionImportMapping FunctionImportName="BUSCARPROVEEDORES" FunctionName="DBTecnoScienceModel.Store.BUSCARPROVEEDORES" />
+          <FunctionImportMapping FunctionImportName="BUSCARVENTA" FunctionName="DBTecnoScienceModel.Store.BUSCARVENTA" />
+          <FunctionImportMapping FunctionImportName="CONSULTAGENERALPRODUCTO" FunctionName="DBTecnoScienceModel.Store.CONSULTAGENERALPRODUCTO" />
+          <FunctionImportMapping FunctionImportName="ELIMINARCOMPRAS" FunctionName="DBTecnoScienceModel.Store.ELIMINARCOMPRAS" />
+          <FunctionImportMapping FunctionImportName="ELIMINARPRODUCTO" FunctionName="DBTecnoScienceModel.Store.ELIMINARPRODUCTO" />
+          <FunctionImportMapping FunctionImportName="ELIMINARPROVEEDORES" FunctionName="DBTecnoScienceModel.Store.ELIMINARPROVEEDORES" />
+          <FunctionImportMapping FunctionImportName="ELIMINARVENTAS" FunctionName="DBTecnoScienceModel.Store.ELIMINARVENTAS" />
+          <FunctionImportMapping FunctionImportName="MODIFICARPRODUCTO" FunctionName="DBTecnoScienceModel.Store.MODIFICARPRODUCTO" />
+          <FunctionImportMapping FunctionImportName="REGISTRARCOMPRAS" FunctionName="DBTecnoScienceModel.Store.REGISTRARCOMPRAS" />
+          <FunctionImportMapping FunctionImportName="REGISTRARPRODUCTO" FunctionName="DBTecnoScienceModel.Store.REGISTRARPRODUCTO" />
+          <FunctionImportMapping FunctionImportName="REGISTRARPROVEEDORES" FunctionName="DBTecnoScienceModel.Store.REGISTRARPROVEEDORES" />
+          <FunctionImportMapping FunctionImportName="REGISTRARVENTAS" FunctionName="DBTecnoScienceModel.Store.REGISTRARVENTAS" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model">
+        <EntityTypeShape EntityType="DBTecnoScienceModel.Compras" Width="1.5" PointX="7.875" PointY="0.625" Height="2.7494921874999996" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBTecnoScienceModel.Productos" Width="1.5" PointX="4" PointY="2.625" Height="2.9417936197916656" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBTecnoScienceModel.Proveedores" Width="1.5" PointX="0.75" PointY="0.75" Height="2.3648893229166656" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBTecnoScienceModel.Ventas" Width="1.5" PointX="6.5" PointY="4.125" Height="2.5571907552083317" IsExpanded="true" />
+        <AssociationConnector Association="DBTecnoScienceModel.FK_Productoo" ManuallyRouted="false">
+          <ConnectorPoint PointX="5.5" PointY="2.99974609375" />
+          <ConnectorPoint PointX="7.875" PointY="2.99974609375" />
+        </AssociationConnector>
+        <AssociationConnector Association="DBTecnoScienceModel.FK_Proveedor" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.65625" />
+          <ConnectorPoint PointX="7.875" PointY="1.65625" />
+        </AssociationConnector>
+        <AssociationConnector Association="DBTecnoScienceModel.FK_Productos" ManuallyRouted="false">
+          <ConnectorPoint PointX="5.5" PointY="4.8458968098958328" />
+          <ConnectorPoint PointX="6.5" PointY="4.8458968098958328" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
